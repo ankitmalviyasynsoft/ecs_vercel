@@ -2,13 +2,23 @@ import localFont from 'next/font/local'
 
 export const kaffFont = localFont({
   src: [
+    // {
+    //   path: '../../public/assets/fonts/Kaff/29LTKaff-Regular.otf',
+    //   weight: '400',
+    //   style: 'normal',
+    // },
+    // {
+    //   path: '../../public/assets/fonts/Kaff/29LTKaff-SemiBold.otf',
+    //   weight: '600',
+    //   style: 'normal',
+    // },
     {
-      path: '../../public/assets/fonts/Kaff/29LTKaff-Regular.otf',
+      path: './fonts/Kaff/29LTKaff-Regular.otf',
       weight: '400',
       style: 'normal',
     },
     {
-      path: '../../public/assets/fonts/Kaff/29LTKaff-SemiBold.otf',
+      path: './fonts/Kaff/29LTKaff-SemiBold.otf',
       weight: '600',
       style: 'normal',
     },
