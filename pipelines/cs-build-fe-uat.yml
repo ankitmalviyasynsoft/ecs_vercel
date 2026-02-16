@@ -1,0 +1,126 @@
+# trigger: 
+#   - staging
+
+# pool:
+#  name: Self-Hosted-Windows
+
+variables:
+    - group: Frontend_UAT
+    - name:  NODE_EXTRA_CA_CERTS
+      value: D:\Certificates\DCTRoot.cer
+    - name:  SONARQUBE_SERVER_URL
+      value: 'https://sonar.dct.gov.ae'
+jobs:
+- job: BuildJob
+  timeoutInMinutes: 120  # Set the desired timeout here
+
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "20.15.1"  # Change to a stable version
+    displayName: "Install Node.js"
+
+  - script: |
+      del -f .next
+    displayName: 'Deleting .next folder to make a clean build'
+
+  - script: |
+      del -f .env
+    displayName: 'Deleting .env file'
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)/build-automation/'
+      Contents: '.env'
+      TargetFolder: '$(Build.SourcesDirectory)'
+    displayName: 'Copying .env from build-automation folder'
+
+
+  - task: PowerShell@2
+    inputs:
+      targetType: 'filePath'
+      filePath: './pipelines/transformScript.ps1'
+
+  - script: |
+      npm install --legacy-peer-deps
+    displayName: "Installing node modules"
+
+  - script: |
+      npm run format:fix
+    displayName: "Applying Prettier"
+
+  - script: |
+      npm run build
+    displayName: "Running Build"
+  
+  # - task: SonarQubePrepare@5
+  #   inputs:
+  #     SonarQube: 'SonarQube Community-CultureSummit'
+  #     scannerMode: 'CLI'
+  #     configMode: 'manual'
+  #     cliProjectKey: 'CultureSummitFE-UAT-Staging'
+  #     cliProjectName: 'CultureSummitFE-UAT-Staging'
+  # - powershell: |
+  #      $params = "$env:SONARQUBE_SCANNER_PARAMS" -replace '"sonar.branch.name":"[\w,/,-]*"\,?'
+  #      Write-Host "##vso[task.setvariable variable=SONARQUBE_SCANNER_PARAMS]$params"
+
+  # - task: SonarQubeAnalyze@5
+  #   inputs:
+  #     jdkversion: 'JAVA_HOME'
+  #     SonarQube: '$(SONARQUBE_SERVER_URL)'
+
+  # - task: SonarQubePublish@5
+  #   inputs:
+  #      pollingTimeoutSec: '300'
+
+  # Copying contents of standalone folder to deploy folder
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)\build\standalone\'
+      Contents: "**"
+      TargetFolder: '$(Build.SourcesDirectory)\deploy\'
+
+  # Copying contents of static folder to deploy folder
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)\build\static\'
+      Contents: "**"
+      TargetFolder: '$(Build.SourcesDirectory)\deploy\build\static\'
+
+  # Copying web.config to deploy folder
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)\build-automation\'
+      Contents: "web.config"
+      TargetFolder: '$(Build.SourcesDirectory)\deploy\'
+  
+  #Copying Public to deploy folder
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)\public'
+      Contents: '**/*'
+      TargetFolder: '$(Build.SourcesDirectory)\deploy\public\'
+
+  # # Copying contents of node_modules to deploy folder
+  # - task: CopyFiles@2
+  #   inputs:
+  #     SourceFolder: '$(Build.SourcesDirectory)\node_modules\'
+  #     Contents: "**"
+  #     TargetFolder: '$(Build.SourcesDirectory)\deploy\node_modules\'
+  #     OverWrite: true
+
+   # Archiveing Content
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: '$(Build.SourcesDirectory)\deploy'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/Published.zip'
+      replaceExistingArchive: true
+
+  # Publishing Artifact
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/Published.zip'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'

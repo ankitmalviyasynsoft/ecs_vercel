@@ -1,0 +1,118 @@
+# trigger: 
+#   - staging
+
+# pool:
+#  name: Self-Hosted-Windows
+
+variables:
+    - group: Frontend_PROD
+    - name:  NODE_EXTRA_CA_CERTS
+      value: D:\Certificates\DCTRoot.cer
+    - name:  SONARQUBE_SERVER_URL
+      value: 'https://sonar.dct.gov.ae'
+jobs:
+- job: BuildJob
+  timeoutInMinutes: 120  # Set the desired timeout here
+
+
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "16.x"  # Change to a stable version
+    displayName: "Install Node.js"
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)\build-automation\'
+      Contents: '.env'
+      OverWrite: true
+      TargetFolder: '$(Build.SourcesDirectory)\'
+
+  - task: replacetokens@3
+    displayName: 'Replace tokens in .env'
+    inputs:
+      rootDirectory: '$(Build.SourcesDirectory)\'
+      targetFiles: .env
+      tokenPrefix: '['
+      tokenSuffix: ']'
+
+  - script: |
+      npm install --legacy-peer-deps
+    displayName: "Installing node modules"
+
+  - script: |
+      npm run format:fix
+    displayName: "Applying Prettier"
+
+  - script: |
+      npm run build
+    displayName: "Running Build"
+  
+  - task: SonarQubePrepare@5
+    inputs:
+      SonarQube: 'SonarQube Community-CultureSummit'
+      scannerMode: 'CLI'
+      configMode: 'manual'
+      cliProjectKey: 'CultureSummitFE_PROD-Staging'
+      cliProjectName: 'CultureSummitFE_PROD-Staging'
+  - powershell: |
+      $params = "$env:SONARQUBE_SCANNER_PARAMS" -replace '"sonar.branch.name":"[\w,/,-]*"\,?'
+      Write-Host "##vso[task.setvariable variable=SONARQUBE_SCANNER_PARAMS]$params"
+
+  - task: SonarQubeAnalyze@5
+    inputs:
+      jdkversion: 'JAVA_HOME'
+      SonarQube: '$(SONARQUBE_SERVER_URL)'
+
+  - task: SonarQubePublish@5
+    inputs:
+      pollingTimeoutSec: '300'
+
+  # Copying contents of standalone folder to deploy folder
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)\build\standalone\'
+      Contents: "**"
+      TargetFolder: '$(Build.SourcesDirectory)\deploy\'
+
+  # Copying contents of static folder to deploy folder
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)\build\static\'
+      Contents: "**"
+      TargetFolder: '$(Build.SourcesDirectory)\deploy\build\static\'
+
+  # Copying contents of public folder to deploy folder
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)\public\'
+      Contents: "**"
+      TargetFolder: '$(Build.SourcesDirectory)\deploy\public\'
+
+  # Copying web.config to deploy folder
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)\build-automation\'
+      Contents: "web.config"
+      TargetFolder: '$(Build.SourcesDirectory)\deploy\'
+
+  # Copying .env to deploy folder
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)\build-automation\'
+      Contents: '.env'
+      TargetFolder: '$(Build.SourcesDirectory)\deploy\'
+
+  # Copying contents of node_modules to deploy folder
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)\node_modules\'
+      Contents: "**"
+      TargetFolder: '$(Build.SourcesDirectory)\deploy\node_modules\'
+      OverWrite: true
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.SourcesDirectory)\deploy'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'

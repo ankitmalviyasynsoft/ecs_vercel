@@ -1,0 +1,6 @@
+export const ProgramSlug = 'programme'
+export const Speakerslug = 'speakers'
+export const newsSlug = 'news'
+export const programsPath = '/programme'
+export const speakersPath = '/speakers'
+export const newsPath = '/media/news'

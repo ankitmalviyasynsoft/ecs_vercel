@@ -1,0 +1,51 @@
+{
+  "CultureSummit": {
+    "ErrorPage": {
+      "error": "Error:",
+      "title": "Something went wrong!",
+      "description": "We encountered an issue while loading this page. Please try again later.",
+      "tryAgain": "Try Again",
+      "backToHome": "Back to Home",
+      "goBackHome": "Go Back",
+      "pageNotFound": "Page Not Found",
+      "lostInExploration": "Lost in exploration?",
+      "destinationDrifted": "The destination you are looking for seems to have drifted away. Let's get you back on track.",
+      "internalServerError": "Internal Server Error",
+      "systemMalfunctionDetected": "System malfunction detected",
+      "internalServerErrorDescription": "We encountered an issue while loading this page. Please try again later."
+    },
+    "Header": {
+      "title": "culture summit",
+      "english": "English",
+      "arabic": "Arabic"
+    },
+    "registerFormValidations": {
+      "title": "Title is required",
+      "invalidTitle": "Title is invalid",
+      "firstName": "First name is required",
+      "invalidFirstName": "First name is invalid",
+      "lastName": "Last name is required",
+      "invalidLastName": "Last name is invalid",
+      "Organization": "Organisation is required",
+      "invalidOrganization": "Organisation is invalid",
+      "number": "Number is required",
+      "invalidNumber": "Number is invalid",
+      "country": "Country is required",
+      "invalidCountry": "Country is invalid",
+      "descriptionRequired": "Description is required",
+      "descriptionMax": "Max 400 characters allowed",
+      "email": "Email is required",
+      "invalidEmail": "Email is invalid",
+      "jobTitle": "Job title is required",
+      "invalidJobTitle": "Job title is invalid",
+      "characters": "characters",
+      "invalidPhoneNumber": "Please enter a valid phone number",
+      "invalidOTP": "Please enter a valid 6-digit OTP"
+    },
+    "thankYouPage": {
+      "title": "Thank You!",
+      "description": "Your registration request has been submitted successfully. We will review your details and get back to you shortly.",
+      "backToHome": "Back to Home"
+    }
+  }
+}

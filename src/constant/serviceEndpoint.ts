@@ -1,0 +1,5 @@
+export const PROGRAM_DETAILS_ENDPOINT = 'api/web/programs/slug/'
+export const SPEAKERS_DETAILS_ENDPOINT = 'api/web/speakers/slug/'
+export const NEWS_DETAILS_ENDPOINT = 'api/web/media/slug/'
+export const STARTUP_ENDPOINT = 'api/web/startup'
+export const NOT_FOUND_ENDPOINT = '/404'

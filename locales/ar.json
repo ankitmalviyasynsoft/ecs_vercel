@@ -1,0 +1,50 @@
+{
+  "CultureSummit": {
+    "ErrorPage": {
+      "error": "خطأ:",
+      "title": "حدث خطأ ما!",
+      "description": "لقد واجهنا مشكلة أثناء تحميل هذه الصفحة. يرجى المحاولة مرة أخرى في وقت لاحق.",
+      "tryAgain": "حاول ثانية",
+      "backToHome": "العودة إلى المنزل",
+      "goBackHome": "عُد",
+      "pageNotFound": "لم يتم العثور على الصفحة",
+      "lostInExploration": "فقدت في الاستكشاف؟",
+      "destinationDrifted": "يبدو أن الوجهة التي تبحث عنها قد انجرفت بعيدًا. دعونا نعيدك إلى المسار الصحيح.",
+      "internalServerError": "خطأ في الخادم الداخلي",
+      "systemMalfunctionDetected": "تم اكتشاف خلل في النظام",
+      "internalServerErrorDescription": "لقد واجهنا مشكلة أثناء تحميل هذه الصفحة. يرجى المحاولة مرة أخرى في وقت لاحق."
+    },
+    "Header": {
+      "title": "قمة الثقافة",
+      "english": "إنجليزي",
+      "arabic": "عربي"
+    },
+    "registerFormValidations": {
+      "title": "العنوان مطلوب",
+      "invalidTitle": "العنوان غير صالح",
+      "firstName": "الاسم الأول مطلوب",
+      "invalidFirstName": "الاسم الأول غير صالح",
+      "lastName": "الاسم الأخير مطلوب",
+      "invalidLastName": "الاسم الأخير غير صالح",
+      "Organization": "التنظيم مطلوب",
+      "invalidOrganization": "المنظمة غير صالحة",
+      "number": "الرقم مطلوب",
+      "invalidNumber": "الرقم غير صالح",
+      "country": "البلد مطلوب",
+      "invalidCountry": "البلد غير صالح",
+      "descriptionRequired": "الوصف مطلوب",
+      "descriptionMax": "Max 400 characters allowed",
+      "email": "البريد الإلكتروني مطلوب",
+      "invalidEmail": "البريد الإلكتروني غير صالح",
+      "jobTitle": "المسمى الوظيفي مطلوب",
+      "invalidJobTitle": "المسمى الوظيفي غير صالح",
+      "characters": "الشخصيات",
+      "invalidPhoneNumber": "يرجى إدخال رقم هاتف صحيح"
+    },
+    "thankYouPage": {
+      "title": "شكرًا لك!",
+      "description": "لقد تم تقديم طلب التسجيل الخاص بك بنجاح. سوف نقوم بمراجعة التفاصيل الخاصة بك ونعود اليكم قريبا.",
+      "backToHome": "العودة إلى المنزل"
+    }
+  }
+}

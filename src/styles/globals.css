@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+@config "../../tailwind.config.cjs";
+
+button {
+  cursor: pointer;
+}
+
+.grecaptcha-badge {
+  visibility: hidden;
+}
