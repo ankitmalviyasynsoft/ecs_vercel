@@ -3,12 +3,12 @@ import localFont from 'next/font/local'
 export const kaffFont = localFont({
   src: [
     {
-      path: '../fonts/Kaff/29LTKaff-Regular.OTF',
+      path: '../../public/assets/fonts/Kaff/29LTKaff-Regular.OTF',
       weight: '400',
       style: 'normal',
     },
     {
-      path: '../fonts/Kaff/29LTKaff-SemiBold.OTF',
+      path: '../../public/assets/fonts/Kaff/29LTKaff-SemiBold.OTF',
       weight: '600',
       style: 'normal',
     },
