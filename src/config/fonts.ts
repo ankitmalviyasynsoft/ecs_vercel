@@ -12,13 +12,14 @@ export const kaffFont = localFont({
     //   weight: '600',
     //   style: 'normal',
     // },
+
     {
-      path: './fonts/Kaff/29LTKaff-Regular.otf',
+      path: '../fonts/Kaff/29LTKaff-Regular.otf',
       weight: '400',
       style: 'normal',
     },
     {
-      path: './fonts/Kaff/29LTKaff-SemiBold.otf',
+      path: '../fonts/Kaff/29LTKaff-SemiBold.otf',
       weight: '600',
       style: 'normal',
     },
